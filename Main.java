@@ -1,0 +1,393 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import java.io.FileReader;
+import java.io.BufferedReader;
+
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
+    private JLabel textregistro;
+    private JMenuBar menu;
+    private JComboBox ciudad;
+    private JLabel textnombre;
+    private JLabel textcorreo;
+    private JTextField correo;
+    private JLabel textciudad;
+    private JLabel textplaca;
+    private JTextField placa;
+    private JLabel texttipo;
+    private JComboBox listatipo;
+    private JButton botonpicoyplaca;
+    private JLabel textrecordatorio;
+    private JLabel textsoat;
+    private JTextField soat;
+    private JLabel texttecnomecanica;
+    private JTextField tecnomecanica;
+    private JComboBox dia;
+    private JLabel textingresadia;
+    private JLabel textrenovacion;
+    private JComboBox listainformacion;
+    private JLabel textalternativas;
+    private JButton botonguardarinfo;
+    private JTextField nombre;
+    private JLabel textinformacionadicional;
+    private JButton botongeneral;
+    private JButton botonalcaldia;
+    private JButton botonIngresar;
+    private JLabel textcorreoingreso;
+    private JTextField correoingreso;
+    private JLabel textingreso;
+    private JTextArea vencimiento;
+    
+
+    public PicoyPlaca() {
+        //construct preComponents
+        JMenu pico_y_placa_en_medellinMenu = new JMenu ("PICO Y PLACA EN MEDELLIN");
+        JMenuItem informacion_adiccionalItem = new JMenuItem ("Información adiccional");
+        pico_y_placa_en_medellinMenu.add (informacion_adiccionalItem);
+        JMenuItem ingresoItem = new JMenuItem ("Ingreso");
+        pico_y_placa_en_medellinMenu.add (ingresoItem);
+        JMenuItem registroItem = new JMenuItem ("Registro");
+        pico_y_placa_en_medellinMenu.add (registroItem);
+        String[] ciudadItems = {" ","Medellin"};
+        String[] listatipoItems = {" ","Automovil", "Moto"};
+        String[] diaItems = {" ","Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+        String[] listainformacionItems = {" ","Metro", "Indriver", "Uber", "Didi", "Picap", "Transporte publico"};
+
+        //construct components
+        textregistro = new JLabel ("REGISTRO");
+        menu = new JMenuBar();
+        menu.add (pico_y_placa_en_medellinMenu);
+        ciudad = new JComboBox (ciudadItems);
+        textnombre = new JLabel ("Nombre:");
+        textcorreo = new JLabel ("Correo:");
+        correo = new JTextField (5);
+        textciudad = new JLabel ("Ciudad:");
+        textplaca = new JLabel ("Placa:");
+        placa = new JTextField (5);
+        texttipo = new JLabel ("Tipo de vehiculo:");
+        listatipo = new JComboBox (listatipoItems);
+        botonpicoyplaca = new JButton ("Consulta tu pico y placa");
+        textrecordatorio = new JLabel ("RECUERDA");
+        textsoat = new JLabel ("Soat:");
+        soat = new JTextField (5);
+        texttecnomecanica = new JLabel ("Tecnomecanica:");
+        tecnomecanica = new JTextField (5);
+        dia = new JComboBox (diaItems);
+        textingresadia = new JLabel ("Selecciona tu dia");
+        textrenovacion = new JLabel ("Ultma renovacion");
+        listainformacion = new JComboBox (listainformacionItems);
+        textalternativas = new JLabel ("Alternativas de transporte");
+        botonguardarinfo = new JButton ("Guardar Informacion");
+        nombre = new JTextField (5);
+        textinformacionadicional = new JLabel ("INFORMACION ADICIONAL");
+        botongeneral = new JButton ("Informacion general");
+        botonalcaldia = new JButton ("Alcaldia de Medellin");
+        botonIngresar = new JButton ("Ingresar");
+        textcorreoingreso = new JLabel ("Ingresa tu correo");
+        correoingreso = new JTextField (5);
+        textingreso = new JLabel ("INGRESO");
+        vencimiento = new JTextArea (5, 5);
+
+        //set components properties
+        vencimiento.setEnabled (false);
+
+        //adjust size and set layout
+        setPreferredSize (new Dimension (667, 361));
+        setLayout (null);
+
+        //add components
+        add (textregistro);
+        add (menu);
+        add (ciudad);
+        add (textnombre);
+        add (textcorreo);
+        add (correo);
+        add (textciudad);
+        add (textplaca);
+        add (placa);
+        add (texttipo);
+        add (listatipo);
+        listatipo.addItemListener(this);
+        add (botonpicoyplaca);
+        botonpicoyplaca.addActionListener(this);
+        add (textrecordatorio);
+        add (textsoat);
+        add (soat);
+        add (texttecnomecanica);
+       add (tecnomecanica);
+        add (dia);
+        dia.addItemListener(this);
+        add (textingresadia);
+        add (textrenovacion);
+        add (listainformacion);
+        listainformacion.addItemListener(this);
+        add (textalternativas);
+        add (botonguardarinfo);
+        botonguardarinfo.addActionListener(this);
+        add (nombre);
+        add (textinformacionadicional);
+        add (botongeneral);
+        botongeneral.addActionListener(this);
+        add (botonalcaldia);
+        botonalcaldia.addActionListener(this);
+        add (botonIngresar);
+        botonIngresar.addActionListener(this);
+        add (textcorreoingreso);
+        add (correoingreso);
+        add (textingreso);
+        add (vencimiento);
+
+        //set component bounds (only needed by Absolute Positioning)
+        textregistro.setBounds (15, 18, 145, 24);
+        menu.setBounds (10, 0, 650, 20);
+        ciudad.setBounds (15, 159, 160, 18);
+        textnombre.setBounds (15, 39, 100, 20);
+        textcorreo.setBounds (15, 73, 100, 20);
+        correo.setBounds (15, 90, 160, 18);
+        textciudad.setBounds (15, 141, 100, 20);
+        textplaca.setBounds (15, 106, 100, 20);
+        placa.setBounds (15, 123, 160, 18);
+        texttipo.setBounds (15, 176, 125, 20);
+        listatipo.setBounds (15, 195, 160, 18);
+        botonpicoyplaca.setBounds (260, 310, 170, 25);
+        textrecordatorio.setBounds (505, 40, 100, 25);
+        textsoat.setBounds (15, 235, 165, 20);
+        soat.setBounds (15, 253, 160, 18);
+        texttecnomecanica.setBounds (15, 272, 150, 20);
+        tecnomecanica.setBounds (15, 290, 160, 18);
+        dia.setBounds (260, 270, 170, 25);
+        textingresadia.setBounds (260, 245, 170, 25);
+        textrenovacion.setBounds (15, 218, 150, 20);
+        listainformacion.setBounds (500, 330, 150, 20);
+        textalternativas.setBounds (500, 305, 150, 20);
+        botonguardarinfo.setBounds (15, 320, 160, 30);
+        nombre.setBounds (15, 57, 160, 18);
+        textinformacionadicional.setBounds (500, 216, 150, 20);
+        botongeneral.setBounds (500, 245, 150, 20);
+        botonalcaldia.setBounds (500, 276, 150, 20);
+        botonIngresar.setBounds (260, 120, 170, 25);
+        textcorreoingreso.setBounds (260, 60, 170, 25);
+        correoingreso.setBounds (260, 85, 170, 25);
+        textingreso.setBounds (260, 35, 100, 25);
+        vencimiento.setBounds (500, 65, 150, 140);
+    
+        botonpicoyplaca.setEnabled(false);
+        botongeneral.setEnabled(false);
+        botonalcaldia.setEnabled(false);
+    }
+    String nombreingresado;
+    String correoingresado;
+    String placaingresado;
+    String soatingresado;
+    String tecnomecanicaingresado;
+    String diaseleccionado;
+    String tipo;
+    String digito;
+    String correo2ingresado;
+    
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == dia){
+            if (e.getStateChange() == ItemEvent.SELECTED){
+                diaseleccionado = (String)dia.getSelectedItem();
+            }
+        }
+        if (e.getSource() == listatipo){
+            if (e.getStateChange() == ItemEvent.SELECTED){
+                tipo = (String)listatipo.getSelectedItem();
+            } 
+            
+        }
+    }
+     
+    public void actionPerformed (ActionEvent e){
+        if (e.getSource() == botonguardarinfo) {
+           String nombreingresado = nombre.getText();
+           String correoingresado = correo.getText();
+           String placaingresado = placa.getText();
+           String soatingresado = soat.getText();
+           String tecnomecanicaingresado = tecnomecanica.getText();
+           String diaseleccionado = (String)dia.getSelectedItem();
+
+            File f = new File("Usuarios.txt");
+            FileWriter writer = null;
+            PrintWriter pw = null;
+            if (!f.exists()) {
+                try{
+                    f.createNewFile();
+                }catch(IOException exception){
+                    System.err.println("Error creando el archivo");
+                }
+            }   
+            try{
+                writer = new FileWriter("Usuarios.txt",true);
+                pw = new PrintWriter(writer);
+                pw.println(nombreingresado + ","+ correoingresado + ", " + placaingresado + "," + tipo + "," + soatingresado + "," + tecnomecanicaingresado);
+            }catch(IOException exception){
+                System.err.println("Error abriendo el archivo");
+            }finally {
+                try {
+                if (null != writer)
+                    writer.close();
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+        if (e.getSource() == botonIngresar) {
+         correo2ingresado = correoingreso.getText();
+           
+          File archivo = null;
+          FileReader fr = null;
+          BufferedReader br = null;
+          try{
+              archivo = new File ("Usuarios.txt");
+              fr = new FileReader (archivo);
+              br = new BufferedReader(fr);   
+              
+              String linea;
+              while((linea=br.readLine())!=null){
+                   if(!linea.equals(" ")){
+                        String[] lista = linea.split(","); 
+                        String nombre = lista[0];
+                        String correo = lista[1];
+                        String placa = lista[2];
+                        String soat = lista[3];
+                        String tecnomecanica = lista[4];
+                        
+                        if(correo2ingresado.equals(correo)){
+                           System.out.println("Bienvenido");
+                           botonpicoyplaca.setEnabled(true);
+                           botongeneral.setEnabled(true);
+                           botonalcaldia.setEnabled(true);
+                           break;
+                        }
+                }
+            }
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }finally{
+                try{                    
+                    if( null != fr ){   
+                        fr.close();     
+                    }                  
+                }catch (Exception e2){ 
+                    e2.printStackTrace();
+                } 
+            }
+        }
+        if (e.getSource() == botonpicoyplaca) {
+           File archivo = null;
+           FileReader fr = null;
+           BufferedReader br = null;
+           String[] lista;
+           String[] lista1;
+           String vehiculo="";
+           String dia1="";
+           String digito1="";
+           String digito2="";
+           String nombre="";
+           String correo="";
+           String placa="";
+           String tecnomecanica="";
+           String soat="";
+           String tipo="";
+           String digito = "";
+         try{
+              
+          archivo = new File("Usuarios.txt");
+          fr = new FileReader(archivo);
+          br = new BufferedReader(fr);
+          String lineaUsuario;
+           while ((lineaUsuario=br.readLine())!=null){
+              lista1 = lineaUsuario.split(",");
+              nombre = lista1[0];
+              correo = lista1[1];
+              tipo = lista1[3]; 
+              placa = lista1[2];
+              soat = lista1[4];
+              tecnomecanica = lista1[5];
+              if (correo2ingresado.equals(correo)){
+               if(tipo.equals("Automovil")){
+                  
+                  digito = placa.substring(placa.length()-1, placa.length());
+                }else{
+                  if (tipo.equals("Moto")){
+                  digito=placa.substring(4,5);
+                  System.out.println(digito);
+                 } 
+               }
+                archivo = new File ("PicoyPlaca.txt");
+                fr = new FileReader (archivo);
+                br = new BufferedReader(fr);
+                String linea;
+               while((linea=br.readLine())!=null){
+               lista = linea.split(" ");
+               vehiculo = lista[0];
+               dia1 = lista[1];
+               digito1 = lista[2];
+               digito2 = lista[3];
+              
+              
+               if (vehiculo.equals( tipo) && dia1.equals (diaseleccionado)){
+                 if((vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito1))) || (vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito2)))){
+                   System.out.println("Tiene pico y placa");
+                   break;
+                 }else{
+                  System.out.println("NO tiene pico y placa");
+                  break;
+                 }
+               }
+             
+             }
+           }
+        }
+    }catch(Exception ex){
+              ex.printStackTrace();
+            }finally{
+        } 
+     }
+    
+    if (e.getSource() == botongeneral) {
+        String url = "https://acortar.link/ox7bot";
+
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+    }
+        if (e.getSource() == botonalcaldia) {
+        String url = "https://www.medellin.gov.co/es/secretaria-de-movilidad/";
+
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+
+  }
+
+        public static void main (String[] args) {
+        JFrame frame = new JFrame ("PICO Y PLACA");
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add (new PicoyPlaca());
+        frame.pack();
+        frame.setVisible (true);
+       }
+    }

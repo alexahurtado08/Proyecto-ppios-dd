@@ -188,6 +188,7 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         botonpicoyplaca.setEnabled(false);
         botongeneral.setEnabled(false);
         botonalcaldia.setEnabled(false);
+        
     }
     String nombreingresado;
     String correoingresado;
@@ -198,6 +199,7 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
     String tipo;
     String digito;
     String correo2ingresado;
+    String alternativas;
     
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == dia){
@@ -211,9 +213,42 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
             } 
             
         }
+        if (e.getSource() == listainformacion){
+            String url = "";
+            if (e.getStateChange() == ItemEvent.SELECTED){
+                String alternativa = (String)listainformacion.getSelectedItem();
+            if(alternativa.equals("Metro")){
+                url = "https://www.metrodemedellin.gov.co/";
+            }else{
+                if (alternativa.equals("Indriver")){
+                 url = "https://indrive.com/es/home/";
+                }else{
+                    if(alternativa.equals("Uber")){
+                     url="https://www.uber.com/co/es/";
+                    }else{
+                        if(alternativa.equals("Didi")){
+                         url="https://web.didiglobal.com/co/pasajero/";
+                        }else{
+                            if(alternativa.equals("Picap")){
+                             url="https://picap.app/";
+                            }else{
+                                if(alternativa.equals("Transporte publico")){
+                                 url="https://www.medellin.gov.co/es/secretaria-de-movilidad/transporte-publico/buses-de-medellin/";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            }try {
+            Desktop.getDesktop().browse(new URI(url));
+            } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();  
+            }
+        }
     }
      
-    public void actionPerformed (ActionEvent e){
+        public void actionPerformed (ActionEvent e){
         if (e.getSource() == botonguardarinfo) {
            String nombreingresado = nombre.getText();
            String correoingresado = correo.getText();
@@ -249,7 +284,6 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         }
         if (e.getSource() == botonIngresar) {
          correo2ingresado = correoingreso.getText();
-           
           File archivo = null;
           FileReader fr = null;
           BufferedReader br = null;
@@ -313,16 +347,18 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
           br = new BufferedReader(fr);
           String lineaUsuario;
            while ((lineaUsuario=br.readLine())!=null){
+               
+               if (!lineaUsuario.equals(" ")){
+                   
               lista1 = lineaUsuario.split(",");
               nombre = lista1[0];
               correo = lista1[1];
-              tipo = lista1[3]; 
               placa = lista1[2];
+              tipo = lista1[3]; 
               soat = lista1[4];
               tecnomecanica = lista1[5];
               if (correo2ingresado.equals(correo)){
                if(tipo.equals("Automovil")){
-                  
                   digito = placa.substring(placa.length()-1, placa.length());
                 }else{
                   if (tipo.equals("Moto")){
@@ -350,12 +386,15 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
                   System.out.println("NO tiene pico y placa");
                   break;
                  }
-               }
+                   }
              
-             }
-           }
-        }
-    }catch(Exception ex){
+                 }
+               }
+            }
+    
+    
+            }
+        }catch(Exception ex){
               ex.printStackTrace();
             }finally{
         } 
@@ -380,7 +419,6 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         }
     }
 
-
   }
 
         public static void main (String[] args) {
@@ -390,4 +428,4 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         frame.pack();
         frame.setVisible (true);
        }
-    }
+    }  

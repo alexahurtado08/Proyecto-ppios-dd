@@ -208,11 +208,15 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
             }
         }
         if (e.getSource() == listatipo){
+            //RE3
             if (e.getStateChange() == ItemEvent.SELECTED){
+                //RPe3
                 tipo = (String)listatipo.getSelectedItem();
             } 
             
         }
+        //RS6
+        //RP3
         if (e.getSource() == listainformacion){
             String url = "";
             if (e.getStateChange() == ItemEvent.SELECTED){
@@ -250,11 +254,16 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
      
         public void actionPerformed (ActionEvent e){
         if (e.getSource() == botonguardarinfo) {
+            //RE2
+            //RPe2
            String nombreingresado = nombre.getText();
            String correoingresado = correo.getText();
+           //RE1
+           //RPe1
            String placaingresado = placa.getText();
            String soatingresado = soat.getText();
            String tecnomecanicaingresado = tecnomecanica.getText();
+
            String diaseleccionado = (String)dia.getSelectedItem();
 
             File f = new File("Usuarios.txt");
@@ -282,11 +291,13 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
                 }
             }
         }
+        //R1
         if (e.getSource() == botonIngresar) {
-         correo2ingresado = correoingreso.getText();
-          File archivo = null;
-          FileReader fr = null;
-          BufferedReader br = null;
+            //RE5
+            correo2ingresado = correoingreso.getText();
+            File archivo = null;
+            FileReader fr = null;
+            BufferedReader br = null;
           try{
               archivo = new File ("Usuarios.txt");
               fr = new FileReader (archivo);
@@ -301,8 +312,9 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
                         String placa = lista[2];
                         String soat = lista[3];
                         String tecnomecanica = lista[4];
-                        
+                        //RP2
                         if(correo2ingresado.equals(correo)){
+                            //RS3
                            System.out.println("Bienvenido");
                            botonpicoyplaca.setEnabled(true);
                            botongeneral.setEnabled(true);
@@ -323,6 +335,7 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
                 } 
             }
         }
+        //RP1
         if (e.getSource() == botonpicoyplaca) {
            File archivo = null;
            FileReader fr = null;
@@ -379,6 +392,7 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
               
               
                if (vehiculo.equals( tipo) && dia1.equals (diaseleccionado)){
+                   //RS1
                  if((vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito1))) || (vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito2)))){
                    System.out.println("Tiene pico y placa");
                    break;
@@ -399,17 +413,20 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
             }finally{
         } 
      }
-    
+    //RS7
     if (e.getSource() == botongeneral) {
+        //RE4
+        //RP4
         String url = "https://acortar.link/ox7bot";
-
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException e1) {
             e1.printStackTrace();
         }
     }
+    //RS5
         if (e.getSource() == botonalcaldia) {
+        //RP5
         String url = "https://www.medellin.gov.co/es/secretaria-de-movilidad/";
 
         try {
@@ -428,4 +445,4 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         frame.pack();
         frame.setVisible (true);
        }
-    }  
+    }

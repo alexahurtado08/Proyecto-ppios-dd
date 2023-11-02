@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
     private JLabel textregistro;
     private JMenuBar menu;
@@ -81,9 +83,9 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
         botonpicoyplaca = new JButton ("Consulta tu pico y placa");
         textrecordatorio = new JLabel ("RECUERDA");
         textsoat = new JLabel ("Soat:");
-        soat = new JTextField (5);
+        soat = new JTextField ("DD/MM/AAAA");
         texttecnomecanica = new JLabel ("Tecnomecanica:");
-        tecnomecanica = new JTextField (5);
+        tecnomecanica = new JTextField ("DD/MM/AAAA");
         dia = new JComboBox (diaItems);
         textingresadia = new JLabel ("Selecciona tu dia");
         textrenovacion = new JLabel ("Ultma renovacion");
@@ -249,15 +251,9 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
             }
         }
     }
-     
-    
-    
-    
-    
-        public void actionPerformed (ActionEvent e){
-        if (e.getSource() == botonguardarinfo) {
-            
-                       //RE2
+    public void actionPerformed (ActionEvent e){
+       if (e.getSource() == botonguardarinfo) {
+            //RE2
             //RPe2
            String nombreingresado = nombre.getText();
            String correoingresado = correo.getText();
@@ -266,62 +262,45 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
            String placaingresado = placa.getText();
            String soatingresado = soat.getText();
            String tecnomecanicaingresado = tecnomecanica.getText();
-
            String diaseleccionado = (String)dia.getSelectedItem();
+           Usuario.guardar(nombreingresado,correoingresado,placaingresado,soatingresado, tecnomecanicaingresado,tipo);
            
-             Usuario.guardar(nombreingresado, correoingresado, placaingresado, soatingresado, tecnomecanicaingresado, tipo);
+           SoatTecnomecanica recordatorio = new SoatTecnomecanica();
+                recordatorio.setSoatInfo(soatingresado);
+                recordatorio.setTecnomecanicaInfo(tecnomecanicaingresado);
+               String soatInfo = recordatorio.getSoatInfo();
+               String tecnomecanicaInfo = recordatorio.getTecnomecanicaInfo();
+               String texto = recordatorio.mostrar();
+               vencimiento.setText(texto);
+               
+       }
+       if (e.getSource() == botonIngresar) {
+            //RE5
+            String correo2ingresado = correoingreso.getText();
+            boolean correoingresado = Usuario.ingresar(correo2ingresado);
+                        
+            if(correoingresado==true){
+                JOptionPane.showMessageDialog(this, "Bienvenido");
+                botonpicoyplaca.setEnabled(true);
+                botongeneral.setEnabled(true);
+                botonalcaldia.setEnabled(true);
+                String soat2 = Usuario.getSoat();
+                String tecno2 = Usuario.getTecnomecanica();
+
+                
+                SoatTecnomecanica.setSoatInfo(soat2);
+                SoatTecnomecanica.setTecnomecanicaInfo(tecno2);
+               String texto = SoatTecnomecanica.mostrar();
+               vencimiento.setText(texto);
+            }
         }
         //R1
-        if (e.getSource() == botonIngresar) {
-            //RE5
-            correo2ingresado = correoingreso.getText();
-            File archivo = null;
-            FileReader fr = null;
-            BufferedReader br = null;
-          try{
-              archivo = new File ("Usuarios.txt");
-              fr = new FileReader (archivo);
-              br = new BufferedReader(fr);   
-              
-              String linea;
-              while((linea=br.readLine())!=null){
-                   if(!linea.equals(" ")){
-                        String[] lista = linea.split(","); 
-                        String nombre = lista[0];
-                        String correo = lista[1];
-                        String placa = lista[2];
-                        String soat = lista[3];
-                        String tecnomecanica = lista[4];
-                        //RP2
-                        if(correo2ingresado.equals(correo)){
-                            //RS3
-                           System.out.println("Bienvenido");
-                           botonpicoyplaca.setEnabled(true);
-                           botongeneral.setEnabled(true);
-                           botonalcaldia.setEnabled(true);
-                           break;
-                        }
-                }
-            }
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }finally{
-                try{                    
-                    if( null != fr ){   
-                        fr.close();     
-                    }                  
-                }catch (Exception e2){ 
-                    e2.printStackTrace();
-                } 
-            }
-        }
-        //RP1
         if (e.getSource() == botonpicoyplaca) {
            File archivo = null;
            FileReader fr = null;
            BufferedReader br = null;
-           String[] lista;
-           String[] lista1;
+           String[] lista = new String[4];
+           String[] lista1 = new String[6];
            String vehiculo="";
            String dia1="";
            String digito1="";
@@ -333,66 +312,17 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
            String soat="";
            String tipo="";
            String digito = "";
-         try{
-              
-          archivo = new File("Usuarios.txt");
-          fr = new FileReader(archivo);
-          br = new BufferedReader(fr);
-          String lineaUsuario;
-           while ((lineaUsuario=br.readLine())!=null){
-               
-               if (!lineaUsuario.equals(" ")){
-                   
-              lista1 = lineaUsuario.split(",");
-              nombre = lista1[0];
-              correo = lista1[1];
-              placa = lista1[2];
-              tipo = lista1[3]; 
-              soat = lista1[4];
-              tecnomecanica = lista1[5];
-              if (correo2ingresado.equals(correo)){
-               if(tipo.equals("Automovil")){
-                  digito = placa.substring(placa.length()-1, placa.length());
-                }else{
-                  if (tipo.equals("Moto")){
-                  digito=placa.substring(4,5);
-                  System.out.println(digito);
-                 } 
-               }
-                archivo = new File ("PicoyPlaca.txt");
-                fr = new FileReader (archivo);
-                br = new BufferedReader(fr);
-                String linea;
-               while((linea=br.readLine())!=null){
-               lista = linea.split(" ");
-               vehiculo = lista[0];
-               dia1 = lista[1];
-               digito1 = lista[2];
-               digito2 = lista[3];
-              
-              
-               if (vehiculo.equals( tipo) && dia1.equals (diaseleccionado)){
-                   //RS1
-                 if((vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito1))) || (vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito2)))){
-                   System.out.println("Tiene pico y placa");
-                   break;
-                 }else{
-                  System.out.println("NO tiene pico y placa");
-                  break;
-                 }
-                   }
-             
-                 }
-               }
-            }
-    
-    
-            }
-        }catch(Exception ex){
-              ex.printStackTrace();
-            }finally{
-        } 
-     }
+           String correo2ingresado = correoingreso.getText();
+          boolean encontrado = Consulta.consultar(lista,lista1,vehiculo,dia1,digito1,digito2,nombre,correo,placa,tecnomecanica,soat,tipo,digito,correo2ingresado,diaseleccionado);
+            if (encontrado==true){
+             JOptionPane.showMessageDialog(this, "SI Tiene Pico y Placa"); 
+          }else{
+              if(encontrado==false){
+                  JOptionPane.showMessageDialog(this, "NO Tiene Pico y Placa");
+              }
+          }
+       }
+        //RP1
     //RS7
     if (e.getSource() == botongeneral) {
         //RE4
@@ -415,8 +345,7 @@ public class PicoyPlaca extends JPanel implements ItemListener, ActionListener {
             e1.printStackTrace();
         }
     }
-
-  }
+}
 
         public static void main (String[] args) {
         JFrame frame = new JFrame ("PICO Y PLACA");

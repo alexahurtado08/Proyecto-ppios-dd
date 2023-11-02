@@ -1,0 +1,44 @@
+public class SoatTecnomecanica {
+    private static String soatInfo;
+    private static String tecnomecanicaInfo;
+
+    public SoatTecnomecanica() {
+        soatInfo = "";
+        tecnomecanicaInfo = "";
+    }
+
+    public static void setSoatInfo(String soatNuevo) {
+        soatInfo = soatNuevo;
+    }
+
+    public static void setTecnomecanicaInfo(String tecnomecanicaNuevo) {
+        tecnomecanicaInfo = tecnomecanicaNuevo;
+    }
+
+    public static String getSoatInfo() {
+        return soatInfo;
+    }
+
+    public static String getTecnomecanicaInfo() {
+        return tecnomecanicaInfo;
+    }
+    
+    public static String mostrar(){
+        
+        String[] fechaT = tecnomecanicaInfo.split("/");
+            String diaT = fechaT[0];
+            String mesT = fechaT[1];
+            String anioT = fechaT[2];
+        String[] fechaS = soatInfo.split("/");
+            String diaS = fechaS[0];
+            String mesS = fechaS[1];
+            String anioS = fechaS[2];
+        int anioT1 = Integer.parseInt(anioT);
+        int anioNuevoT = anioT1+1;
+        int anioS1 = Integer.parseInt(anioS);
+        int anioNuevoS = anioS1+1;
+        String texto = ("Tu soat vence: \n"+diaS+" / "+mesS+" / "+anioNuevoS+"\n Tu tecnomecanica vence: \n"+diaT+" / "+mesT+" / "+anioNuevoT);
+        
+        return texto;
+    }
+}

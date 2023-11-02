@@ -1,0 +1,64 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
+public class Consulta{
+    public static boolean consultar(String[] lista,String[] lista1,String vehiculo,String dia1,String digito1,String digito2,String nombre,String correo,String placa,String tecnomecanica,String soat,String tipo,String digito,String correo2ingresado,String diaseleccionado){
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        boolean encontrado=false;
+        try{
+            archivo = new File("Usuarios.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String lineaUsuario;
+            while ((lineaUsuario=br.readLine())!=null){
+                if (!lineaUsuario.equals(" ")){
+                    lista1 = lineaUsuario.split(",");
+                    nombre = lista1[0];
+                    correo = lista1[1];
+                    placa = lista1[2];
+                    tipo = lista1[3]; 
+                    soat = lista1[4];
+                    tecnomecanica = lista1[5];
+                    if (correo2ingresado.equals(correo)){
+                        if(tipo.equals("Automovil")){
+                            digito = placa.substring(placa.length()-1, placa.length());
+                        }else{
+                            if (tipo.equals("Moto")){
+                                digito=placa.substring(4,5);
+                                System.out.println(digito);
+                            } 
+                        }
+                        archivo = new File ("PicoyPlaca.txt");
+                        fr = new FileReader (archivo);
+                        br = new BufferedReader(fr);
+                        String linea;
+                        while((linea=br.readLine())!=null){
+                            lista = linea.split(" ");
+                            vehiculo = lista[0];
+                            dia1 = lista[1];
+                            digito1 = lista[2];
+                            digito2 = lista[3];
+                           //RS1
+                            if((vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito1))) || (vehiculo.equals(tipo) && dia1.equals(diaseleccionado) && (digito.equals(digito2)))){
+                                encontrado=true;
+                               break;
+                            }else{
+                                encontrado=false;
+                                break;
+                             }
+                        }
+                    }
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+        }
+        return encontrado;
+    }
+}

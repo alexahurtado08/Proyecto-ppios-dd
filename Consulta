@@ -33,12 +33,12 @@ public class Consulta{
                                 System.out.println(digito);
                             } 
                         }
-                        archivo = new File ("PicoyPlaca.txt");
-                        fr = new FileReader (archivo);
-                        br = new BufferedReader(fr);
-                        String linea;
-                        while((linea=br.readLine())!=null){
-                            lista = linea.split(" ");
+                        File archivoPicoyPlaca = new File("PicoyPlaca.txt");
+                        FileReader frPicoyPlaca = new FileReader(archivoPicoyPlaca);
+                        BufferedReader brPicoyPlaca = new BufferedReader(frPicoyPlaca);
+                        String lineaPicoyPlaca;
+                        while((lineaPicoyPlaca = brPicoyPlaca.readLine()) != null){
+                            lista = lineaPicoyPlaca.split(" ");
                             vehiculo = lista[0];
                             dia1 = lista[1];
                             digito1 = lista[2];
@@ -49,7 +49,6 @@ public class Consulta{
                                break;
                             }else{
                                 encontrado=false;
-                                break;
                              }
                         }
                     }
